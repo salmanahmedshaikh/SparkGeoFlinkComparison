@@ -1,0 +1,1 @@
+{"geometry": {"coordinates": [116.50551, 39.92943], "type": "Point"}, "properties": {"oID": "1205", "timestamp": "2008-02-03 17:38:43"}, "type": "Feature"}
