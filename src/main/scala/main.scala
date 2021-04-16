@@ -19,8 +19,9 @@ object main {
 
     spark.sparkContext.setLogLevel("Error")
 
-    val kafka_bootstrap_servers = "localhost:9092"
-    val kafka_topic_name = "TaxiDriveFewTuples"
+    //val kafka_bootstrap_servers = "localhost:9092"
+    val kafka_bootstrap_servers = "150.82.97.204:9092"
+    val kafka_topic_name = "TaxiDriveGeoJSON_Live"
 
     // data structure "TaxiDrive17MillionGeoJSON": {"geometry": {"coordinates": [116.50551, 39.92943], "type": "Point"}, "properties": {"oID": "1205", "timestamp": "2008-02-03 17:38:43"}, "type": "Feature"}
     val df = spark
