@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module external.linked.project.id="sparkgeoflinkcomparison [file:/data1/development/Spark/SparkGeoFlinkComparison/]" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/../../target/scala-2.12/classes" />
     <output-test url="file://$MODULE_DIR$/../../target/scala-2.12/test-classes" />
     <exclude-output />
@@ -38,7 +38,6 @@
     <orderEntry type="library" name="sbt: com.ning:compress-lzf:1.0.3:jar" level="project" />
     <orderEntry type="library" name="sbt: com.squareup.okhttp:okhttp:2.7.5:jar" level="project" />
     <orderEntry type="library" name="sbt: com.squareup.okio:okio:1.6.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.sun.activation:jakarta.activation:1.2.1:jar" level="project" />
     <orderEntry type="library" name="sbt: com.thoughtworks.paranamer:paranamer:2.8:jar" level="project" />
     <orderEntry type="library" name="sbt: com.twitter:chill-java:0.9.5:jar" level="project" />
     <orderEntry type="library" name="sbt: com.twitter:chill_2.12:0.9.5:jar" level="project" />
@@ -59,12 +58,10 @@
     <orderEntry type="library" name="sbt: io.dropwizard.metrics:metrics-jvm:4.1.1:jar" level="project" />
     <orderEntry type="library" name="sbt: io.netty:netty-all:4.1.51.Final:jar" level="project" />
     <orderEntry type="library" name="sbt: io.netty:netty:3.10.6.Final:jar" level="project" />
-    <orderEntry type="library" name="sbt: jakarta.activation:jakarta.activation-api:1.2.1:jar" level="project" />
     <orderEntry type="library" name="sbt: jakarta.annotation:jakarta.annotation-api:1.3.5:jar" level="project" />
     <orderEntry type="library" name="sbt: jakarta.servlet:jakarta.servlet-api:4.0.3:jar" level="project" />
     <orderEntry type="library" name="sbt: jakarta.validation:jakarta.validation-api:2.0.2:jar" level="project" />
     <orderEntry type="library" name="sbt: jakarta.ws.rs:jakarta.ws.rs-api:2.1.6:jar" level="project" />
-    <orderEntry type="library" name="sbt: jakarta.xml.bind:jakarta.xml.bind-api:2.3.2:jar" level="project" />
     <orderEntry type="library" name="sbt: javax.activation:activation:1.1.1:jar" level="project" />
     <orderEntry type="library" name="sbt: javax.inject:javax.inject:1:jar" level="project" />
     <orderEntry type="library" name="sbt: javax.servlet.jsp:jsp-api:2.1:jar" level="project" />
@@ -178,6 +175,7 @@
     <orderEntry type="library" name="sbt: org.json4s:json4s-core_2.12:3.7.0-M5:jar" level="project" />
     <orderEntry type="library" name="sbt: org.json4s:json4s-jackson_2.12:3.7.0-M5:jar" level="project" />
     <orderEntry type="library" name="sbt: org.json4s:json4s-scalap_2.12:3.7.0-M5:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.locationtech.jts:jts-core:1.16.1:jar" level="project" />
     <orderEntry type="library" name="sbt: org.lz4:lz4-java:1.7.1:jar" level="project" />
     <orderEntry type="library" name="sbt: org.objenesis:objenesis:2.5.1:jar" level="project" />
     <orderEntry type="library" name="sbt: org.roaringbitmap:RoaringBitmap:0.9.0:jar" level="project" />

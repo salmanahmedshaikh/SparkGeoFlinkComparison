@@ -22,3 +22,4 @@ libraryDependencies ++= Seq(
 
 // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
 libraryDependencies += "org.apache.kafka" % "kafka-clients" % "2.5.0"
+libraryDependencies += "org.locationtech.jts" % "jts-core" % "1.16.1"
