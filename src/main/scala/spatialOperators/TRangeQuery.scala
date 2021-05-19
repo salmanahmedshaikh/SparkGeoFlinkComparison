@@ -6,6 +6,7 @@ import org.apache.spark.sql.functions.{col, udf}
 import org.apache.spark.sql.types.DoubleType
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory, Point, Polygon}
 import utils.distanceFunctions
+import utils.distanceFunctions.polygonSetContainsPoint
 //import spatialObjects.Point
 import utils.distanceFunctions.pointPointEuclideanDistance
 
@@ -32,7 +33,7 @@ class TRangeQuery {
   val lowerRemoveAllWhitespaceUDF = udf[String, String](lowerRemoveAllWhitespace)
    */
 
-  def pointRangeRealtime(pointDataFrame: DataFrame, qPolygon: Polygon): DataFrame ={
+  def pointRangeRealtime(pointDataFrame: DataFrame, qPolygonList: Array[Polygon]): DataFrame ={
 
     val qDistanceStream = pointDataFrame
       .select(
@@ -43,9 +44,8 @@ class TRangeQuery {
         //UDFGetP(col("geometry.coordinates")(0), col("geometry.coordinates")(1)).as("point")
       )
       //.filter(p => qPolygon.contains(p.get(4).asInstanceOf ))
-      .filter(p => qPolygon.contains( distanceFunctions.getPoint(p.getDouble(2), p.getDouble(3)) ))
-
-
+      //.filter(p => qPolygon.contains( distanceFunctions.getPoint(p.getDouble(2), p.getDouble(3)) ))
+      .filter(p => polygonSetContainsPoint(qPolygonList, distanceFunctions.getPoint(p.getDouble(2), p.getDouble(3))))
 
       return qDistanceStream
   }

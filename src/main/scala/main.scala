@@ -1,20 +1,23 @@
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions.{col, current_timestamp, from_json, lit, to_timestamp, unix_timestamp, window}
+import org.apache.spark.sql.functions.{col, current_timestamp, from_json, lit, rand, randn, to_timestamp, unix_timestamp, window}
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.types.TimestampType
 import org.apache.spark.sql._
 import org.apache.spark.sql.streaming.Trigger
 import org.apache.spark.streaming.{Seconds, StreamingContext}
-import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
+import org.locationtech.jts.geom.{Coordinate, GeometryFactory, Polygon}
 import spatialObjects.Point
 import spatialOperators.{FilterQuery, RangeQuery, TJoinQuery, TRangeQuery}
+
+import scala.util.Random
+import java.util.concurrent.ThreadLocalRandom
 
 object main {
 
   def main(args: Array[String]): Unit = {
 
-    val maxOffsetsPerTrigger = "100000"
+    val maxOffsetsPerTrigger = "1000"
     val numThreads = "30"
     val triggerDuration = "500 milliseconds" // 500 milliseconds 5 seconds 10 minutes
 
@@ -78,7 +81,8 @@ object main {
 
     // Ordinary stream
     val df_val = inputStreamDf.select(from_json(col("value"),inputDataSchema).as("inputTuple"))
-    val df_col_val = df_val.select(col("inputTuple.properties.oID"), col("inputTuple.geometry"), lit("1").as("joinCol1")).withColumn("timestamp", current_timestamp())
+    //val df_col_val = df_val.select(col("inputTuple.properties.oID"), col("inputTuple.geometry"), lit(((Math.random()*30).toInt).toString).as("joinCol1")).withColumn("timestamp", current_timestamp())
+    val df_col_val = df_val.select(col("inputTuple.properties.oID"), col("inputTuple.geometry")).withColumn("joinCol1", ((rand()*30 + 1).cast("Int")).cast("String")).withColumn("timestamp", current_timestamp())
     //val df_col_val = df_val.select(col("inputTuple.properties.oID"), col("inputTuple.geometry"), col("inputTuple.properties.timestamp").cast(TimestampType)) // .withColumn("timestamp2", to_timestamp(col("timestamp"),"yyyy-MM-dd HH:mm:ss"))
 
     // Query stream
@@ -100,8 +104,7 @@ object main {
 
     // TJoin Query
     val tJoinQuery = new TJoinQuery
-    val queryOutput = tJoinQuery.pointPointRealtime(df_col_val, df_col_val_query, queryRadius)
-
+    val queryOutput = tJoinQuery.pointPointRealtime(df_col_val, df_col_val_query, queryRadius, spark)
 
     // filter query
     //val pointFilterQuery = new FilterQuery
@@ -113,21 +116,39 @@ object main {
     // val queryOutput = pointRangeQuery.pointRangeRealtime(df_col_val, queryPoint, queryRadius)
 
     /*
-    // TRangeQuery
-    val tRangeQuery = new TRangeQuery
-    val geofact = new GeometryFactory()
-    val coordinatesArray = new Array[Coordinate](5)
-
     coordinatesArray(0) = new Coordinate(115.50000, 39.60000)
     coordinatesArray(1) = new Coordinate(117.60000, 39.60000)
     coordinatesArray(2) = new Coordinate(117.60000, 41.10000)
     coordinatesArray(3) = new Coordinate(115.50000, 41.10000)
     coordinatesArray(4) = new Coordinate(115.50000, 39.60000)
-
     val qPoly = geofact.createPolygon(coordinatesArray)
-    val queryOutput = tRangeQuery.pointRangeRealtime(df_col_val, qPoly)
      */
 
+    /*
+    // TRangeQuery
+    val numPolygons = 25 // 25, 50, 100
+    val tRangeQuery = new TRangeQuery
+    val geofact = new GeometryFactory()
+    val queryPolygonsArray = new Array[Polygon](numPolygons)
+
+    for (a <- 0 until numPolygons) {
+
+      val coordinatesArray = new Array[Coordinate](5)
+      for (b <- 0 to 3) {
+        val x = 115.5 + math.random * (117.6 - 115.5)
+        val y = 39.6 + math.random * (41.1 - 39.6)
+
+        coordinatesArray(b) = new Coordinate(x, y)
+      }
+      coordinatesArray(4) = coordinatesArray(0)
+      queryPolygonsArray(a) = geofact.createPolygon(coordinatesArray)
+      println(queryPolygonsArray(a))
+    }
+
+    // 25 poly
+    //val polyList: List[Polygon] = List(qPoly, qPoly, qPoly, qPoly, qPoly, qPoly, qPoly, qPoly, qPoly, qPoly, qPoly, qPoly, qPoly, qPoly, qPoly, qPoly, qPoly, qPoly, qPoly, qPoly, qPoly, qPoly, qPoly, qPoly, qPoly)
+    val queryOutput = tRangeQuery.pointRangeRealtime(df_col_val, queryPolygonsArray)
+    */
 
     queryOutput
       .writeStream

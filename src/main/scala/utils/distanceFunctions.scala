@@ -3,7 +3,7 @@ package utils
 import org.apache.spark.sql.functions.{col, pow, sqrt, udf, window}
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.expressions.UserDefinedFunction
-import org.locationtech.jts.geom.{Coordinate, GeometryFactory}
+import org.locationtech.jts.geom.{Coordinate, GeometryFactory, Polygon}
 
 object distanceFunctions {
 
@@ -23,4 +23,15 @@ object distanceFunctions {
 
     point
   }
+
+  def polygonSetContainsPoint(polygonList: Array[Polygon], point: org.locationtech.jts.geom.Point): Boolean ={
+
+    for(poly <- polygonList) {
+      if (poly.contains(point)){
+        return true
+      }
+    }
+    return false
+  }
+
 }
